@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <_PublishTargetUrl>C:\Work\Deployment\JazeCore</_PublishTargetUrl>
+    <History>True|2022-08-12T07:50:41.3858180Z;True|2021-06-20T23:48:32.4763182+06:00;True|2021-06-20T00:31:59.6681888+06:00;True|2021-06-17T23:57:58.6612008+06:00;True|2021-06-17T23:25:50.8049338+06:00;False|2021-06-17T23:25:13.9330280+06:00;True|2021-06-17T23:12:34.6214230+06:00;</History>
+  </PropertyGroup>
+</Project>

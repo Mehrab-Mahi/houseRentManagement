@@ -1,0 +1,241 @@
+CREATE TABLE [dbo].CustomerTypes(
+	[Id] [nvarchar](450) NOT NULL,
+	[Name] [nvarchar](max) NULL,
+	[Description] [nvarchar](max) NULL,
+	[CreateTime] [datetime2](7) NOT NULL,
+	[LastModifiedTime] [datetime2](7) NOT NULL,
+	[CreatedBy] [nvarchar](max) NULL,
+	[LastModifiedBy] [nvarchar](max) NULL,
+	[IsDeleted] [bit] NOT NULL,
+ CONSTRAINT [PK_CustomerType] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+
+update AccessControls
+set Url = '/customertype',
+MenuId = 'menu_customertype_list'
+where Id = '41';
+
+
+CREATE TABLE [dbo].Customers(
+	[Id] [nvarchar](450) NOT NULL,
+	[FirstName] [nvarchar](max) NULL,
+	[LastName] [nvarchar](max) NULL,
+	[CustomerType] [nvarchar](max) NULL,
+	[MainPhone] [nvarchar](max) NULL,
+	[AlternativePhone] [nvarchar](max) NULL,
+	[PrimaryContact] [nvarchar](max) NULL,
+	[SecondaryContact] [nvarchar](max) NULL,
+	[Email] [nvarchar](max) NULL,
+	[Company] [nvarchar](max) NULL,
+	[Street1] [nvarchar](max) NULL,
+	[Street2] [nvarchar](max) NULL,
+	[City] [nvarchar](max) NULL,
+	[State] [nvarchar](max) NULL,
+	[Zip] [nvarchar](max) NULL,
+	[CreateTime] [datetime2](7) NOT NULL,
+	[LastModifiedTime] [datetime2](7) NOT NULL,
+	[CreatedBy] [nvarchar](max) NULL,
+	[LastModifiedBy] [nvarchar](max) NULL,
+	[IsDeleted] [bit] NOT NULL,
+ CONSTRAINT [PK_Customer] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+
+update AccessControls
+set Url = '/customer',
+MenuId = 'menu_customer_list'
+where Id = '43';
+
+
+CREATE TABLE [dbo].ProductTypes(
+	[Id] [nvarchar](450) NOT NULL,
+	[Name] [nvarchar](max) NULL,
+	[Description] [nvarchar](max) NULL,
+	[CreateTime] [datetime2](7) NOT NULL,
+	[LastModifiedTime] [datetime2](7) NOT NULL,
+	[CreatedBy] [nvarchar](max) NULL,
+	[LastModifiedBy] [nvarchar](max) NULL,
+	[IsDeleted] [bit] NOT NULL,
+ CONSTRAINT [PK_ProductTypes] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+update AccessControls
+set Url = '/producttype',
+MenuId = 'menu_producttype_list'
+where Id = '80';
+
+
+update AccessControls
+set Url = '/product',
+MenuId = 'menu_product_list'
+where Id = '81';
+
+
+CREATE TABLE [dbo].Products(
+	[Id] [nvarchar](450) NOT NULL,
+	[ProductCode] [nvarchar](max) NULL,
+	[ProductName] [nvarchar](max) NULL,
+	[ProductDescription] [nvarchar](max) NULL,
+	[ProductType] [nvarchar](max) NULL,
+	[Vendor] [nvarchar](max) NULL,
+	[Available] [int] NULL,
+	[AverageCosting] [decimal] NULL,
+	[SalesPrice] [decimal] NULL,
+	[ImagePath] [nvarchar](max) NULL,
+	[CreateTime] [datetime2](7) NOT NULL,
+	[LastModifiedTime] [datetime2](7) NOT NULL,
+	[CreatedBy] [nvarchar](max) NULL,
+	[LastModifiedBy] [nvarchar](max) NULL,
+	[IsDeleted] [bit] NOT NULL,
+ CONSTRAINT [PK_Products] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+
+
+
+CREATE TABLE [dbo].[OrderStatuses](
+	[Id] [nvarchar](450) NOT NULL,
+	[Name] [nvarchar](max) NULL,
+	[CreateTime] [datetime2](7) NOT NULL,
+	[LastModifiedTime] [datetime2](7) NOT NULL,
+	[CreatedBy] [nvarchar](max) NULL,
+	[LastModifiedBy] [nvarchar](max) NULL,
+	[IsDeleted] [bit] NOT NULL,
+ CONSTRAINT [PK_OrderStatuses] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+
+INSERT INTO [dbo].[OrderStatuses]
+           ([Id]
+           ,[Name]
+           ,[CreateTime]
+           ,[LastModifiedTime]
+           ,[CreatedBy]
+           ,[LastModifiedBy]
+           ,[IsDeleted])
+     VALUES
+           ('1','Quote',GETDATE(),GETDATE(),'fariha25','fariha25',0),
+           ('2','Processed 50% Deposit',GETDATE(),GETDATE(),'fariha25','fariha25',0),
+		   ('3','Illustration Phase',GETDATE(),GETDATE(),'fariha25','fariha25',0),
+		   ('4','Pending Approval',GETDATE(),GETDATE(),'fariha25','fariha25',0),
+		   ('5','Create All Products',GETDATE(),GETDATE(),'fariha25','fariha25',0),
+		   ('6','Online Files',GETDATE(),GETDATE(),'fariha25','fariha25',0),
+		   ('7','Printing',GETDATE(),GETDATE(),'fariha25','fariha25',0),
+		   ('8','Fill',GETDATE(),GETDATE(),'fariha25','fariha25',0),
+		   ('9','Shipping',GETDATE(),GETDATE(),'fariha25','fariha25',0);
+GO
+
+
+CREATE TABLE [dbo].[Orders](
+	[Id] [nvarchar](450) NOT NULL,
+	[CustomerId] [nvarchar](max) NULL,
+	[OrderStatus] [nvarchar](max) NULL,
+	[Products] [nvarchar](max) NULL,
+	[PaymentStatus] [nvarchar](max) NULL,
+	[Amount] [decimal](13,2) NOT NULL,
+	[PaidAmount] [decimal](13,2) NOT NULL,
+	[DueAmount] [decimal](13,2) NOT NULL,
+	[CreateTime] [datetime2](7) NOT NULL,
+	[LastModifiedTime] [datetime2](7) NOT NULL,
+	[CreatedBy] [nvarchar](max) NULL,
+	[LastModifiedBy] [nvarchar](max) NULL,
+	[IsDeleted] [bit] NOT NULL,
+ CONSTRAINT [PK_Orders] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+
+INSERT INTO [dbo].[AccessControls]
+           ([Id]
+           ,[Name]
+           ,[Type]
+           ,[ParentId]
+           ,[CreateTime]
+           ,[LastModifiedTime]
+           ,[CreatedBy]
+           ,[LastModifiedBy]
+           ,[IsDeleted]
+           ,[Url]
+           ,[Icon]
+           ,[MenuId]
+           ,[SortOrder])
+     VALUES
+           ('82'
+           ,'Order Management'
+           ,'sub-menu'
+           ,'8'
+           ,GETDATE()
+           ,GETDATE()
+           ,NULL
+           ,NULL
+           ,0
+           ,'order'
+           ,'entypo-book-open'
+           ,'menu_order_list'
+           ,82)
+GO
+
+
+CREATE TABLE [dbo].[InvoiceNumbers](
+	[Id] [nvarchar](450) NOT NULL,
+	[Number] [bigint] NOT NULL,
+	[CreateTime] [datetime2](7) NOT NULL,
+	[LastModifiedTime] [datetime2](7) NOT NULL,
+	[CreatedBy] [nvarchar](max) NULL,
+	[LastModifiedBy] [nvarchar](max) NULL,
+	[IsDeleted] [bit] NOT NULL,
+ CONSTRAINT [PK_InvoiceNumbers] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+USE [InvoiceProDb]
+GO
+
+
+
+INSERT INTO [dbo].[InvoiceNumbers]
+           ([Id]
+           ,[Number]
+           ,[CreateTime]
+           ,[LastModifiedTime]
+           ,[CreatedBy]
+           ,[LastModifiedBy]
+           ,[IsDeleted])
+     VALUES
+           ('1'
+           ,'0'
+           ,GETDATE()
+           ,GETDATE()
+           ,null
+           ,null
+           ,0)
+GO
+
+

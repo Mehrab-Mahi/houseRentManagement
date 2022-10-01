@@ -1,0 +1,387 @@
+﻿@model InvoicePro.Application.ViewModels.InvoiceVm
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="InvoicePRO" />
+    <meta name="author" content="" />
+
+    <link rel="icon" href="~/Neon/images/favicon.ico">
+
+    <title>InvoicePro</title>
+
+    <link rel="stylesheet" href="~/Neon/js/jquery-ui/css/no-theme/jquery-ui-1.10.3.custom.min.css">
+    <link rel="stylesheet" href="~/Neon/css/font-icons/entypo/css/entypo.css">
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto+Sans:400,700,400italic">
+    <link rel="stylesheet" href="~/Neon/css/bootstrap.css">
+    <link rel="stylesheet" href="~/Neon/css/Neon-core.css">
+    <link rel="stylesheet" href="~/Neon/css/Neon-theme.css">
+    <link rel="stylesheet" href="~/Neon/css/Neon-forms.css">
+    <link rel="stylesheet" href="~/Neon/css/custom.css">
+    <link rel="stylesheet" href="~/Neon/js/selectboxit/jquery.selectBoxIt.css">
+    <link rel="stylesheet" href="~/Neon/js/dropzone/dropzone.css">
+
+    <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/jquery-ui.theme.css" />
+    <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/jquery-ui.css" />
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="~/Neon/js/bootstrap.js"></script>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/underscore@1.11.0/underscore-min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lodash@4.17.20/lodash.min.js"></script>
+
+    <script src="~/lib/jquery-ui/jquery-ui.min.js"></script>
+    <script src="~/lib/jquery-ui/jquery-ui.js"></script>
+
+    <script src="~/js/jquery.toast.min.js"></script>
+    <link href="~/css/jquery.toast.min.css" rel="stylesheet" />
+    <script src="~/js/moment.min.js"></script>
+
+    <script src="~/Neon/js/Neon-custom.js"></script>
+</head>
+
+<body class="page-body">
+
+    <div class="page-container">
+        <div class="main-content">
+            <div class="row">
+                <table style="width:100%">
+                    <tr>
+                        <td style="letter-spacing: 1px;float: right"><h1>INVOICE</h1></td>
+                    </tr>
+                </table>
+
+                <table style="width:100%">
+                    <tr>
+                        <td rowspan="5" style="float:left;width:30%;">
+                            <img src="~/Neon/images/invoice_logo.jpg" height="115"/>
+                        </td>
+                        <td style="letter-spacing: 0.02em; float: right;">
+                            <h3>DERDE PUFFIN GROOP LLC</h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="letter-spacing: 0.02em; float: right; margin-top: -80px;">
+                            <h4>Accounts Receivable</h4>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="letter-spacing: 0.02em; float: right; margin-top: -60px;">
+                            <h4>Tax ID: 87-3447341</h4>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="letter-spacing: 0.02em; float: right; margin-top: -40px;">
+                            <h4>finance@derdepuffingroop.com</h4>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="letter-spacing: 0.02em; float: right; margin-top: -20px;">
+                            <h4>Website: https://derdepuffingroop.com</h4>
+                        </td>
+                    </tr>
+                </table>
+
+                <div style="background-color: #F0F0F0; width:100%; height:110px; margin-top:10px;">
+                    <div style="width: 30%; float:left;">
+                        <h4 style="margin-left:10px;letter-spacing: 0.04em;">Invoice No#: @Model.InvoiceNumber</h4>
+                        <h4 style="margin-left:10px;letter-spacing: 0.04em;">Invoice Date: @Model.InvoiceDate</h4>
+                        <h4 style="margin-left:10px;letter-spacing: 0.04em;">Reference: </h4>
+                        <h4 style="margin-left:10px;letter-spacing: 0.04em;">Due Date: @Model.DueDate</h4>
+                    </div>
+
+                    <div style="width: 70%;float:right">
+                        <div>
+                            @{
+                                if (Model.PaymentStatus == "Due")
+                                {
+                                    <h3 style="letter-spacing: 0.02em;float: right; margin-top: 5px; margin-right: 10px; border: 1px solid red; background: red; color: white; border-radius: 15px; padding: 5px;">DUE</h3>
+                                    <h2 style="letter-spacing: 0.02em;float: right; margin-top: 45px; margin-right: -53px;">$@Model.DueAmount</h2>
+                                    <h4 style="letter-spacing: 0.02em;float: right; margin-top: 80px; margin-right: -94px;">AMOUNT DUE</h4>
+                                }
+                                else
+                                {
+                                    <h3 style="letter-spacing: 0.02em;float: right; margin-top: 10px; margin-right: 10px; border: 1px solid green; background: green; color: white; border-radius: 15px; padding: 5px;">PAID</h3>
+                                    <h2 style="letter-spacing: 0.02em;float: right; margin-top: 45px; margin-right: -57px;">$@Model.DueAmount</h2>
+                                    <h4 style="letter-spacing: 0.02em;float: right; margin-top: 80px; margin-right: -62px;">AMOUNT DUE</h4>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <table style="float:left;padding-top:20px;margin-bottom:20px;margin-left:10px;">
+                    <tr>
+                        <td>
+                            <h3 style="letter-spacing: 0.04em;">BILL TO</h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h4 style="letter-spacing: 0.04em; margin-top: 0px;">@Model.CustomerType</h4>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h4 style="letter-spacing: 0.04em; margin-top: 0px;">@Model.CustomerName</h4>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h4 style="letter-spacing: 0.04em; margin-top: 0px;">@Model.Address</h4>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h4 style="letter-spacing: 0.04em; margin-top: 0px;">@Model.Email</h4>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h4 style="letter-spacing: 0.04em; margin-top: 0px;">@Model.Mobile</h4>
+                        </td>
+                    </tr>
+                </table>
+
+                <table style="width:100%;margin-top:40px;letter-spacing: 0.03em;" border=1 frame=hsides rules=rows>
+                    <thead style="background-color: #E4E4E4;">
+                        <tr style="height:40px;background-color:#E4E4E4;color:black;">
+                            <th style="width:8%;text-align:center;">
+                                <b>#</b>
+                            </th>
+                            <th style="width: 50%; text-align: center;">
+                                <b>Items</b>
+                            </th>
+                            <th style="width: 10%; text-align: center;">
+                                <b>QTY</b>
+                            </th>
+                            <th style="width: 12%; text-align: center;">
+                                <b>Price</b>
+                            </th>
+                            <th style="width: 8%; text-align: center;">
+                                <b>DIS(%)</b>
+                            </th>
+                            <th style="width: 12%; text-align: center;">
+                                <b>AMOUNT($)</b>
+                            </th>
+                        </tr>
+                    </thead>
+
+                    @{
+                        int index = 1;
+
+                        foreach (var proudct in Model.ProductList)
+                        {
+                            <tr style="height: 35px;">
+                                <td style="text-align: center;">
+                                    @index.ToString()
+                                </td>
+                                <td style="text-align: center;">
+                                    @proudct.Product
+                                </td>
+                                <td style="text-align: center;">
+                                    @proudct.Unit
+                                </td>
+                                <td style="text-align: center;">
+                                    @proudct.Price
+                                </td>
+                                <td style="text-align: center;">
+                                    @proudct.Discount
+                                </td>
+                                <td style="text-align: center;">
+                                    @proudct.Total
+                                </td>
+                            </tr>
+                            index++;
+                        }
+                    }
+                </table>
+
+                <table style="width:100%;margin-top:5px;letter-spacing: 0.03em;">
+                    <tr>
+                        <td style="width:50%;">
+                        </td>
+                        <td style="width:20%; float:left;letter-spacing: 0.03em;">
+                            <h4>Subtotal</h4>
+                        </td>
+                        <td style="width:30%;float:right;letter-spacing: 0.03em;">
+                            <h4>$@Model.Total</h4>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:50%;">
+                        </td>
+                        <td style="width:20%; float:left;letter-spacing: 0.03em;">
+                            <h4>Shipping</h4>
+                        </td>
+                        <td style="width:30%;float:right;letter-spacing: 0.03em;">
+                            <h4>$0.00</h4>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:50%;">
+                        </td>
+                        <td style="width:20%; float:left;letter-spacing: 0.03em;">
+                            <h4>Tip</h4>
+                        </td>
+                        <td style="width:30%;float:right;letter-spacing: 0.03em;">
+                            <h4>$0.00</h4>
+                        </td>
+                    </tr>
+                </table>
+
+                <table style="width:100%">
+                    <tr>
+                        <td style="width:40%">
+                        </td>
+                        <td style="width:60%">
+                            <hr />
+                        </td>
+                    </tr>
+                </table>
+
+                <table style="width:100%;">
+                    <tr>
+                        <td style="width:50%;">
+                        </td>
+                        <td style="width:20%; float:left;letter-spacing: 0.03em;">
+                            <h4>Total</h4>
+                        </td>
+                        <td style="width:30%;float:right;letter-spacing: 0.03em;">
+                            <h4>$@Model.Total USD</h4>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:50%;">
+                        </td>
+                        <td style="width:20%; float:left;letter-spacing: 0.03em;">
+                            <h4>Amount Paid</h4>
+                        </td>
+                        <td style="width:30%;float:right;letter-spacing: 0.03em;">
+                            <h4>$@Model.PaidAmount</h4>
+                        </td>
+                    </tr>
+                </table>
+
+                <table style="width:100%">
+                    <tr>
+                        <td style="width:40%">
+                        </td>
+                        <td style="width:60%">
+                            <hr />
+                        </td>
+                    </tr>
+                </table>
+
+                <table style="width:100%;letter-spacing: 0.03em;">
+                    <tr>
+                        <td style="width:50%;">
+                        </td>
+                        <td style="width:20%; float:left;letter-spacing: 0.03em;">
+                            <h3>AMOUNT DUE</h3>
+                        </td>
+                        <td style="width:30%;float:right;letter-spacing: 0.03em;">
+                            <h3>$@Model.DueAmount USD</h3>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="row" style="margin-top:20px;">
+                <h3 style="letter-spacing: 0.03em;">To pay please click on this link - https://stripe.com/ </h3>
+
+                <h3 style="letter-spacing: 0.05em;">TERMS AND CONDITIONS </h3>
+
+                <h4 style="letter-spacing: 0.03em;">
+                    New orders ship 10 to 14 business days after approved artwork. Reorders ship 7 to 10 business days from date of deposit.
+                </h4>
+
+                <h4 style="letter-spacing: 0.03em;">
+                    All Sales are final on all labeled Products. Claims of damaged products during transit must be report to DPG within 14 business days with photos of damaged shipment for a full credit applied to future orders. Claims made after 30 days of invoice do not qualify for credit.
+                </h4>
+
+                <h4 style="letter-spacing: 0.03em;">
+                    Customers are responsible for proofing custom copy. DPG is not responsible for tracking revised items.
+                </h4>
+
+                <h4 style="letter-spacing: 0.03em;">
+                    Barcodes are guaranteed readability only on designs as black on white gloss labels. DPG is not responsible for tracking or procuring barcodes.
+                </h4>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        table, th, td {
+            
+        }
+    </style>
+
+
+    <link rel="stylesheet" href="~/Neon/js/datatables/datatables.css">
+    <link rel="stylesheet" href="~/Neon/js/select2/select2-bootstrap.css">
+    <link rel="stylesheet" href="~/Neon/js/select2/select2.css">
+    <!-- Bottom scripts (common) -->
+    <script src="~/Neon/js/gsap/TweenMax.min.js"></script>
+    <script src="~/Neon/js/jquery-ui/js/jquery-ui-1.10.3.minimal.min.js"></script>
+    <script src="~/Neon/js/joinable.js"></script>
+    <script src="~/Neon/js/resizeable.js"></script>
+    <script src="~/Neon/js/Neon-api.js"></script>
+
+
+    <!-- Bottom scripts (select2) -->
+    <script src="~/Neon/js/selectboxit/jquery.selectBoxIt.min.js"></script>
+    <script src="~/Neon/js/datatables/datatables.js"></script>
+    <script src="~/Neon/js/select2/select2.js"></script>
+    <script src="~/Neon/js/bootstrap-tagsinput.min.js"></script>
+    <script src="~/Neon/js/typeahead.min.js"></script>
+
+    <!-- Imported scripts on this page -->
+    <script src="~/Neon/js/fileinput.js"></script>
+    <script src="~/Neon/js/dropzone/dropzone.js"></script>
+    <script src="~/Neon/js/bootstrap-switch.min.js"></script>
+    <script src="~/Neon/js/bootstrap-datepicker.js"></script>
+
+    <!-- JavaScripts initializations and stuff -->
+
+
+    <script src="~/Neon/js/jquery.validate.min.js"></script>
+    <script src="~/Neon/js/jquery.sparkline.min.js"></script>
+    <script src="~/Neon/js/rickshaw/vendor/d3.v3.js"></script>
+    <script src="~/Neon/js/rickshaw/rickshaw.min.js"></script>
+    <script src="~/Neon/js/raphael-min.js"></script>
+    <script src="~/Neon/js/toastr.js"></script>
+    <script src="~/Neon/js/neon-chat.js"></script>
+    <script src="~/ckeditor5/build/ckeditor.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+
+    <script src="~/lib/js-tree/jstree.js"></script>
+    <script src="~/lib/js-tree/jstree.checkbox.js"></script>
+    <script src="~/js/common/http.js"></script>
+    <script src="~/js/common/local-storage-service.js"></script>
+
+    <script src="~/js/site.js"></script>
+    <script src="~/js/role.js"></script>
+    <script src="~/js/dashboard.js"></script>
+    <script src="~/js/inviteUser.js"></script>
+    <script src="~/js/employee.js"></script>
+    <script src="~/js/department.js"></script>
+    <script src="~/js/designation.js"></script>
+    <script src="~/js/asset_type.js"></script>
+    <script src="~/js/customerType.js"></script>
+    <script src="~/js/productType.js"></script>
+    <script src="~/js/product.js"></script>
+    <script src="~/js/customer.js"></script>
+    <script src="~/js/asset_status.js"></script>
+    <script src="~/js/maintenance_type.js"></script>
+    <script src="~/js/order.js"></script>
+</body>
+</html>

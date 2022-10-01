@@ -1,0 +1,279 @@
+﻿@model List<InvoicePro.Domain.Entities.Product>
+@{
+    ViewData["Title"] = "InvoicePRO | Product";
+}
+
+<ol class="breadcrumb bc-3">
+    <li class="active">
+        <a href="/"><i class="entypo-home"></i>Home</a>
+    </li>
+    <li>
+
+        <a href="/product"><i class="entypo-link"></i>Product</a>
+    </li>
+</ol>
+
+<h3><i class="entypo-link"></i> All Products</h3>
+<br />
+
+<a onclick="return AssetPro.Product.Add('')" class="btn btn-success add_btn create">
+    <i class="entypo-plus"></i>
+    Add
+</a>
+
+<table class="table table-bordered datatable" id="tblProduct">
+    <thead>
+        <tr class="replace-inputs">
+            <th>Id</th>
+            <th>Product Code</th>
+            <th>Product Name</th>
+            <th>Product Description</th>
+            <th>Product Type</th>
+            <th>Product Image</th>
+            <th>Available</th>
+            <th>Average Costing</th>
+            <th>Sales Price</th>
+            <th>Sales/Week</th>
+            <th>Settings</th>
+        </tr>
+    </thead>
+</table>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        var roleId = $('#currentUserRole').val();
+        AssetPro.Settings.LoadUserMenu(roleId);
+        AssetPro.Settings.SetMenuActive('8', 'menu_product_list');
+        AssetPro.Product.GetAllProduct('tblProduct', 'loader');
+
+        $("#placeorderForm").validate({
+            rules: {
+                name: {
+                    required: true
+                }
+            },
+            messages: {
+                password: {
+                    required: "the password is required"
+                }
+            }
+        });
+
+        $.ajax({
+            type: "GET",
+            url: '/producttype/getall',
+            data: "{}",
+            success: function (data) {
+                data = data.data;
+                var s = '<option value="-1">Please Select Type</option>';
+                for (var i = 0; i < data.length; i++) {
+                    s += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
+                }
+                $("#producttype").html(s);
+            }
+        });
+    });
+
+</script>
+
+<script src="~/lib/js-tree/jstree.js"></script>
+<script src="~/lib/js-tree/jstree.checkbox.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+
+<div class="modal fade" id="Product_add_modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel"> <i class="entypo-link"></i> Product</h4>
+            </div>
+
+            <form role="form" id="placeorderForm" method="post" class="validate">
+                <input type="hidden" value="0" id="product-id" name="ProductId" />
+
+
+                <div class="modal-body" style="color:#373e4a !important;">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">Product Code</label>
+                                <input type="text" class="form-control" id="productcode" name="productcode" data-validate="required" placeholder="Product Code" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">Product Name</label>
+                                <input type="text" class="form-control" id="productname" name="productname" placeholder="Product Name" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label">Product Description</label>
+                                <textarea type="text" class="form-control" id="productdescription" name="ProductDescription" placeholder="Product Description"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">Product Type</label>
+                                <select class="form-control" name="producttype" id="producttype">
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">Vendor</label>
+                                <input type="text" class="form-control" id="vendor" name="Vendor" placeholder="Vendor" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">Available</label>
+                                <input type="number" class="form-control" id="available" name="Available" placeholder="Available" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">Average Costing</label>
+                                <input type="number" class="form-control" id="averagecosting" name="AverageCosting" placeholder="Average Costing" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">Sales Price</label>
+                                <input type="number" class="form-control" id="salesprice" name="SalesPrice" placeholder="Sales Price" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <input type="hidden" value="0" id="img" name="img" />
+                        <div class="form-group">
+                            <label class="control-label">Product Image</label>
+
+                            <div class="fileinput fileinput-new" data-provides="fileinput">
+                                <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;" data-trigger="fileinput">
+                                    <img id="ProductImageURL" src="https://via.placeholder.com/200x150" alt="...">
+                                </div>
+                                <div class="fileinput-preview fileinput-exists thumbnail" id="dv_img1" style="max-width: 200px; max-height: 150px"></div>
+                                <div>
+                                    <span class="btn btn-primary btn-file">
+                                        <span class="fileinput-new">Select image</span>
+                                        <span class="fileinput-exists">Change</span>
+                                        <input type="file" id="ProductImageURL1" onchange="AssetPro.Product.ConvertToBase64(this,'img')" accept="image/*">
+                                    </span>
+                                    <a href="#" class="btn btn-orange fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <div class="form-group" style="float:right;">
+                        <button type="submit" class="btn btn-success">Save</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="Product_image_modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel"> <i class="entypo-link"></i> Product Image</h4>
+            </div>
+
+            <form role="form" id="placeorderForm" method="post" class="validate">
+                
+                <div class="modal-body" style="color:#373e4a !important;">
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            
+                        </div>
+                        <div class="col-md-4">
+                            <div style="text-align:center;">
+                                <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;" data-trigger="fileinput">
+                                    <img id="image" alt="...">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="form-group" style="float:right;">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="Product_description_modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel"> <i class="entypo-link"></i> Product Description</h4>
+            </div>
+
+            <form role="form" id="placeorderForm" method="post" class="validate">
+                <input type="hidden" value="0" id="product-id" name="ProductId" />
+                <div class="modal-body" style="color:#373e4a !important;">
+                    <div style="text-align:center" id="description">
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="form-group" style="float:right;">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .modal-dialog {
+        overflow-y: initial !important
+    }
+
+    .modal-body {
+        height: auto;
+        overflow-y: auto;
+    }
+</style>

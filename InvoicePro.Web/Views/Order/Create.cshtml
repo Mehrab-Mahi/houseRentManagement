@@ -1,0 +1,232 @@
+﻿@model List<InvoicePro.Domain.Entities.Order>
+@{
+    ViewData["Title"] = "InvoicePRO | Create Order";
+}
+
+<ol class="breadcrumb bc-3">
+    <li class="active">
+        <a href="/"><i class="entypo-home"></i>Home</a>
+    </li>
+    <li>
+        <a href="/order"><i class="entypo-link"></i>Order</a>
+    </li>
+    <li>
+        <a href="/order/create"><i class="entypo-link"></i>Create Order</a>
+    </li>
+</ol>
+
+<h3><i class="entypo-link"></i> Create Order</h3>
+<br />
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="form-group">
+            <label> <strong> Customer : </strong></label>
+            <select class="form-control" name="customer" id="customer">
+            </select>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="form-group">
+            <label> <strong> Order Status : </strong></label>
+            <select class="form-control" name="orderstatus" id="orderstatus">
+            </select>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="form-group">
+            <a onclick="AssetPro.Order.Save()" class="btn btn-success add_btn create">
+                <i class="entypo-doc-text-inv"></i>
+                Save
+            </a>
+        </div>
+    </div>
+
+    <div class="col-md-1">
+        <div class="form-group">
+            <a href="/order/" class="btn btn-primary add_btn create">
+                <i class="entypo-cancel"></i>
+                Cancel
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group">
+            <a onclick="return AssetPro.Order.Add('')" class="btn btn-success">
+                <i class="entypo-plus"></i>
+                Add Product
+            </a>
+        </div>
+    </div>
+    <div class="col-md-5">
+        
+    </div>
+    <div class="col-md-2">
+        <h2>Grand Total : </h2>
+    </div>
+    <div class="col-md-2">
+        <h2 id="amount"  style="float:right;">0</h2>
+    </div>
+</div>
+
+<table class="table table-bordered datatable" id="tblNewOrder">
+    <thead>
+        <tr class="replace-inputs">
+            <th>Product Id</th>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Unit</th>
+            <th>Total</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+</table>
+
+<div class="modal fade" id="Order_add_modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel"> <i class="entypo-link"></i>Add Product</h4>
+            </div>
+
+            <form role="form" id="placeorderForm" method="post" class="validate">
+                <input type="hidden" value="0" id="id" name="ProductId" />
+
+
+                <div class="modal-body" style="color:#373e4a !important;">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">Product Type</label>
+                                <select class="form-control" name="productType" id="productType"></select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">Product</label>
+                                <select class="form-control" name="product" id="product"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">Price</label>
+                                <input type="number" class="form-control" id="price" disabled />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">Unit</label>
+                                <input type="number" class="form-control" id="unit" name="Unit" placeholder="Unit" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">Discount</label>
+                                <input type="number" class="form-control" id="discount" name="Discount" placeholder="Discount" min="0" max="100" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">Total</label>
+                                <input type="number" class="form-control" id="total" disabled />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="form-group" style="float:right;">
+                            <button type="submit" class="btn btn-success">Add</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        var roleId = $('#currentUserRole').val();
+        AssetPro.Settings.LoadUserMenu(roleId);
+        AssetPro.Settings.SetMenuActive('8', 'menu_order_list');
+        AssetPro.Order.GetAllProductOfOrder('tblNewOrder', 'loader','');
+        $('#amount').val(0);
+        $("#placeorderForm").validate({
+            rules: {
+                name: {
+                    required: true
+                }
+            },
+            messages: {
+                password: {
+                    required: "the password is required"
+                }
+            }
+        });
+
+        $.ajax({
+            type: "GET",
+            url: '/customer/getall',
+            data: "{}",
+            success: function (data) {
+                data = data.data;
+                var s = '<option value="-1">Please Select Customer</option>';
+                for (var i = 0; i < data.length; i++) {
+                    s += '<option value="' + data[i].id + '">' + data[i].firstName + " " + data[i].lastName + '</option>';
+                }
+                $("#customer").html(s);
+            }
+        });
+
+        $.ajax({
+            type: "GET",
+            url: '/order/getallorderstatus',
+            data: "{}",
+            success: function (data) {
+                data = data.data;
+                var s = '<option value="-1">Please Select Order Status</option>';
+                for (var i = 0; i < data.length; i++) {
+                    s += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
+                }
+                $("#orderstatus").html(s);
+            }
+        });
+
+        $.ajax({
+            type: "GET",
+            url: '/producttype/getall',
+            data: "{}",
+            success: function (data) {
+                data = data.data;
+                var productType = '<option value="-1">Please Select Product</option>';
+                for (var i = 0; i < data.length; i++) {
+                    productType += '<option value="' + data[i].name + '">' + data[i].name + '</option>';
+                }
+                $("#productType").html(productType);
+            }
+        });
+    });
+
+</script>
+
+
+<script src="~/lib/js-tree/jstree.js"></script>
+<script src="~/lib/js-tree/jstree.checkbox.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />

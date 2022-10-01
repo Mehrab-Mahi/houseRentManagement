@@ -1,0 +1,66 @@
+﻿@model List<InvoicePro.Domain.Entities.Order>
+@{
+    ViewData["Title"] = "InvoicePRO | Order";
+}
+
+<ol class="breadcrumb bc-3">
+    <li class="active">
+        <a href="/"><i class="entypo-home"></i>Home</a>
+    </li>
+    <li>
+
+        <a href="/order"><i class="entypo-link"></i>Order</a>
+    </li>
+</ol>
+
+<h3><i class="entypo-link"></i> All Orders</h3>
+<br />
+
+<a href="/order/createview" class="btn btn-success add_btn create">
+    <i class="entypo-plus"></i>
+    Add
+</a>
+
+<table class="table table-bordered datatable" id="tblOrder">
+    <thead>
+        <tr class="replace-inputs">
+            <th>Order Id</th>
+            <th>Customer</th>
+            <th>Order Status</th>
+            <th>Payment Status</th>
+            <th>Amount</th>
+            <th>Paid Amount</th>
+            <th>Due Amount</th>
+            <th>Settings</th>
+        </tr>
+    </thead>
+</table>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        var roleId = $('#currentUserRole').val();
+        AssetPro.Settings.LoadUserMenu(roleId);
+        AssetPro.Settings.SetMenuActive('8', 'menu_order_list');
+        AssetPro.Order.GetAllOrder('tblOrder', 'loader');
+
+        $("#placeorderForm").validate({
+            rules: {
+                name: {
+                    required: true
+                }
+            },
+            messages: {
+                password: {
+                    required: "the password is required"
+                }
+            }
+        });
+    });
+
+</script>
+
+
+<script src="~/lib/js-tree/jstree.js"></script>
+<script src="~/lib/js-tree/jstree.checkbox.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
